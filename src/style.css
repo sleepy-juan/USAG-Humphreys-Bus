@@ -1,0 +1,25 @@
+#red-station {
+    margin: 5em 5em 1em 5em;
+}
+
+#red-station button {
+    margin: 0.2em;
+}
+
+#green-station {
+    margin: 5em 5em 1em 5em;
+    display: none;
+}
+
+#green-station button {
+    margin: 0.2em;
+}
+
+#blue-station {
+    margin: 5em 5em 1em 5em;
+    display: none;
+}
+
+#blue-station button {
+    margin: 0.2em;
+}
