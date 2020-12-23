@@ -35,9 +35,6 @@ $(document).ready(function () {
 
 /* Bus Selection */
 $(".menu a").click(function () {
-    $(".menu a").removeClass("active");
-    $(this).addClass("active");
-
     var currentBus = $(this).text();
     $(".ui.sidebar").empty();
     if (currentBus === "Red") {
@@ -54,9 +51,14 @@ $(".menu a").click(function () {
         });
     }
 
+    var that = this;
+
     /* Add station selection listener */
     $(".sidebar .item").click(function () {
         $(".ui.sidebar").sidebar("hide");
+
+        $(".menu a").removeClass("active");
+        $(that).addClass("active");
 
         $("#current .button").removeClass("red");
         $("#current .button").removeClass("green");
