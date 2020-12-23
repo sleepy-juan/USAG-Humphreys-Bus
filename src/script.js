@@ -5,15 +5,32 @@ $(document).ready(function () {
     var hr = now.getHours();
     var mn = now.getMinutes();
     var nextBus = getNextBus("red", 26, hr * 100 + mn, now.getDay(), false);
-    currentNextBusOnUI = nextBus;
+    currentNextBusOnUI = nextBus[1];
 
-    if (nextBus < 1000) {
+    if (currentNextBusOnUI < 1000) {
         $("#next-bus").text(
-            `Next 0${parseInt(nextBus / 100)}:${nextBus % 100}`
+            `Next 0${parseInt(currentNextBusOnUI / 100)}:${
+                currentNextBusOnUI % 100
+            }`
         );
     } else {
-        $("#next-bus").text(`Next ${parseInt(nextBus / 100)}:${nextBus % 100}`);
+        $("#next-bus").text(
+            `Next ${parseInt(currentNextBusOnUI / 100)}:${
+                currentNextBusOnUI % 100
+            }`
+        );
     }
+
+    $("tbody").empty();
+    for (var i = 0; i < nextBus.length; i += 2) {
+        $("tbody").append(
+            `<tr><td data-label="Station">${
+                nextBus[i]
+            }</td><td data-label="Arriving">${nextBus[i + 1]}</td></tr>`
+        );
+    }
+
+    updateRemainingTime();
 });
 
 /* Bus Selection */
@@ -66,17 +83,32 @@ $(".menu a").click(function () {
             now.getDay(),
             false
         );
-        currentNextBusOnUI = nextBus;
+        currentNextBusOnUI = nextBus[1];
 
-        if (nextBus < 1000) {
+        if (currentNextBusOnUI < 1000) {
             $("#next-bus").text(
-                `Next 0${parseInt(nextBus / 100)}:${nextBus % 100}`
+                `Next 0${parseInt(currentNextBusOnUI / 100)}:${
+                    currentNextBusOnUI % 100
+                }`
             );
         } else {
             $("#next-bus").text(
-                `Next ${parseInt(nextBus / 100)}:${nextBus % 100}`
+                `Next ${parseInt(currentNextBusOnUI / 100)}:${
+                    currentNextBusOnUI % 100
+                }`
             );
         }
+
+        $("tbody").empty();
+        for (var i = 0; i < nextBus.length; i += 2) {
+            $("tbody").append(
+                `<tr><td data-label="Station">${
+                    nextBus[i]
+                }</td><td data-label="Arriving">${nextBus[i + 1]}</td></tr>`
+            );
+        }
+
+        updateRemainingTime();
     });
 
     $(".ui.sidebar")
@@ -84,8 +116,7 @@ $(".menu a").click(function () {
         .sidebar("toggle");
 });
 
-/* Timer */
-setInterval(function () {
+var updateRemainingTime = function () {
     var now = new Date();
     var hr = now.getHours();
     var mn = now.getMinutes();
@@ -107,4 +138,7 @@ setInterval(function () {
     }
 
     $("#remaining-time").text(`Remaining ${smn}:${ssn}`);
-}, 1000);
+};
+
+/* Timer */
+setInterval(updateRemainingTime, 1000);

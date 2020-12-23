@@ -381,14 +381,23 @@ var subQuater = (time) => {
 
 var getNextRedBus = (stationIdx, now, day, isTomorrowHoliday) => {
     // get starting time and compare with it
-    var starting = 0;
+    var startingsList = [];
     if (day >= 1 && day <= 5) {
-        starting = redStartingsWeekday[stationIdx];
+        startingsList = redStartingsWeekday;
     } else {
-        starting = redStartingsWeekend[stationIdx];
+        startingsList = redStartingsWeekend;
     }
+
+    var starting = startingsList[stationIdx];
     starting = parseInt(starting);
-    if (starting > now) return starting;
+    if (starting > now) {
+        var busSchedule = [];
+        for (var i = stationIdx; i < startingsList.length; i++) {
+            busSchedule.push(redStations[i]);
+            busSchedule.push(startingsList[i]);
+        }
+        return busSchedule;
+    }
 
     // calculate ending time
     var ending = 2400;
@@ -403,43 +412,83 @@ var getNextRedBus = (stationIdx, now, day, isTomorrowHoliday) => {
 
     // get next bus
     var temp = addQuater(starting);
+    var idx = 1;
     while (temp <= ending) {
-        if (now < temp) return temp;
+        if (now < temp) {
+            var busSchedule = [];
+            for (var i = stationIdx; i < startingsList.length; i++) {
+                busSchedule.push(redStations[i]);
+                var stemp = parseInt(startingsList[i]);
+                for (var j = 0; j < idx; j++) stemp = addQuater(stemp);
+                busSchedule.push(stemp);
+            }
+            return busSchedule;
+        }
         temp = addQuater(temp);
+        idx += 1;
     }
     return null; // no more bus today
 };
 
 var getNextGreenBus = (stationIdx, now, day) => {
     // get starting time and compare with it
-    var starting = 0;
+    var startingsList = [];
     if (day >= 1 && day <= 5) {
-        starting = greenStartingsWeekday[stationIdx];
+        startingsList = greenStartingsWeekday;
     } else {
-        starting = greenStartingsWeekend[stationIdx];
+        startingsList = greenStartingsWeekend;
     }
+
+    var starting = startingsList[stationIdx];
     starting = parseInt(starting);
-    if (starting > now) return starting;
+    if (starting > now) {
+        var busSchedule = [];
+        for (var i = stationIdx; i < startingsList.length; i++) {
+            busSchedule.push(greenStations[i]);
+            busSchedule.push(startingsList[i]);
+        }
+        return busSchedule;
+    }
 
     // get next bus
     var temp = addQuater(starting);
+    var idx = 1;
     while (temp <= 2400) {
-        if (now < temp) return temp;
+        if (now < temp) {
+            var busSchedule = [];
+            for (var i = stationIdx; i < startingsList.length; i++) {
+                busSchedule.push(greenStations[i]);
+                var stemp = parseInt(startingsList[i]);
+                for (var j = 0; j < idx; j++) stemp = addQuater(stemp);
+                busSchedule.push(stemp);
+            }
+            return busSchedule;
+        }
         temp = addQuater(temp);
+        idx += 1;
     }
     return null; // no more bus today
 };
 
 var getNextBlueBus = (stationIdx, now, day, isTomorrowHoliday) => {
     // get starting time and compare with it
-    var starting = 0;
+    var startingsList = [];
     if (day >= 1 && day <= 5) {
-        starting = blueStartingsWeekday[stationIdx];
+        startingsList = blueStartingsWeekday;
     } else {
-        starting = blueStartingsWeekend[stationIdx];
+        startingsList = blueStartingsWeekend;
     }
+
+    var starting = startingsList[stationIdx];
     starting = parseInt(starting);
-    if (starting > now) return starting;
+    if (starting > now) {
+        var busSchedule = [];
+        for (var i = stationIdx; i < startingsList.length; i++) {
+            busSchedule.push(blueStations[i]);
+            busSchedule.push(startingsList[i]);
+        }
+        return busSchedule;
+    }
 
     // calculate ending time
     var ending = 2400;
@@ -453,9 +502,20 @@ var getNextBlueBus = (stationIdx, now, day, isTomorrowHoliday) => {
 
     // get next bus
     var temp = addQuater(starting);
+    var idx = 1;
     while (temp <= ending) {
-        if (now < temp) return temp;
+        if (now < temp) {
+            var busSchedule = [];
+            for (var i = stationIdx; i < startingsList.length; i++) {
+                busSchedule.push(blueStations[i]);
+                var stemp = parseInt(startingsList[i]);
+                for (var j = 0; j < idx; j++) stemp = addQuater(stemp);
+                busSchedule.push(stemp);
+            }
+            return busSchedule;
+        }
         temp = addQuater(temp);
+        idx += 1;
     }
     return null; // no more bus today
 };
