@@ -122,3 +122,25 @@ $(".menu a").click(function () {
 
     showSidebar();
 });
+
+//---------- Station Selection ----------//
+$("#current .button").click(function () {
+    var bus = $(".menu a.active").text().toLowerCase();
+
+    constructSidebar(bus);
+
+    /* Add station selection listener */
+    $(".sidebar .item").click(function () {
+        hideSidebar();
+
+        var infos = depart(bus, $(this).index(), false);
+        window.nextBusTime = deformatTime(infos[0].time);
+
+        updateBusInfo(bus, infos[0]);
+        updateArrivingInfo(bus, infos);
+
+        updateRemainingTime();
+    });
+
+    showSidebar();
+});
