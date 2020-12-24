@@ -86,6 +86,10 @@ var hideSidebar = () => {
 
 //---------- Settings ----------//
 $(document).ready(function () {
+    $(".message .close").click(function () {
+        $("div.message").css("display", "none");
+    });
+
     var infos = depart("red", 26, false);
     window.nextBusTime = deformatTime(infos[0].time);
 
